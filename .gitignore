@@ -7,3 +7,5 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 .nb-gradle/
+# VIM: Swap-files
+*.swp
