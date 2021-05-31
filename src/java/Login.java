@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 
 public class Login extends HttpServlet {
@@ -32,12 +33,14 @@ public class Login extends HttpServlet {
             respuesta=rs.next();
             String passwrd=rs.getString("password");
             if(respuesta && passwrd.equals(password)){
+                HttpSession sesion=request.getSession();
+                sesion.setAttribute("userName",rs.getString("nombre"));
+                sesion.setAttribute("userEmail",email);
                 Map objeto=new HashMap();
-                    objeto.put("id",rs.getInt("idUsuario"));
+                    objeto.put("email",email);
                     objeto.put("nombre",rs.getString("nombre"));
-                    objeto.put("paterno",rs.getString("paterno"));
-                    objeto.put("materno",rs.getString("materno"));
-                    objeto.put("password",rs.getString("password"));
+                    objeto.put("apellido",rs.getString("apellido"));
+                    objeto.put("password",password);
                     array.add(objeto);
             }else
                 System.out.println("Not found");
