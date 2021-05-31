@@ -1,11 +1,8 @@
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,12 +33,7 @@ public class Login extends HttpServlet {
                 HttpSession sesion=request.getSession();
                 sesion.setAttribute("userName",rs.getString("nombre"));
                 sesion.setAttribute("userEmail",email);
-                Map objeto=new HashMap();
-                    objeto.put("email",email);
-                    objeto.put("nombre",rs.getString("nombre"));
-                    objeto.put("apellido",rs.getString("apellido"));
-                    objeto.put("password",password);
-                    array.add(objeto);
+                response.sendRedirect("ShowInfo");
             }else
                 System.out.println("Not found");
             db.close();
@@ -50,8 +42,5 @@ public class Login extends HttpServlet {
         {
             System.out.println("Error: "+e);
         }
-        PrintWriter out = response.getWriter();
-        out.println(array);
-        out.close();
     }
 }

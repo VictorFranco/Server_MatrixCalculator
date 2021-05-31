@@ -1,12 +1,9 @@
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,15 +52,7 @@ public class Create extends HttpServlet {
             HttpSession sesion=request.getSession();
             sesion.setAttribute("userName",name);
             sesion.setAttribute("userEmail",email);
-            Map objeto=new HashMap();
-                objeto.put("email",email);
-                objeto.put("nombre",name);
-                objeto.put("apellido",last_name);
-                objeto.put("password",password);
-                array.add(objeto);
+            response.sendRedirect("ShowInfo");
         }
-        PrintWriter out = response.getWriter();
-        out.println(array);
-        out.close();
     }
 }

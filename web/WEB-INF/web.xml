@@ -8,6 +8,10 @@
         <servlet-name>Create</servlet-name>
         <servlet-class>Create</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ShowInfo</servlet-name>
+        <servlet-class>ShowInfo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>Create</servlet-name>
         <url-pattern>/Create</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowInfo</servlet-name>
+        <url-pattern>/ShowInfo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
