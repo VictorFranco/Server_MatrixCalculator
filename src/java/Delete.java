@@ -3,7 +3,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.ServletException;
@@ -19,7 +18,7 @@ public class Delete extends HttpServlet {
             throws ServletException, IOException
     {
         HttpSession session=request.getSession();
-        String userSelected=(String)session.getAttribute("userSelected");
+        String userSelected=request.getParameter("userSelected");
         String userName=(String)session.getAttribute("userName");
         String userEmail=(String)session.getAttribute("userEmail");
         response.setContentType("application/json;charset=UTF-8");
@@ -32,9 +31,7 @@ public class Delete extends HttpServlet {
                 rs.setString(1,userSelected);
                 int resultado=rs.executeUpdate();
                 if(resultado==1){
-                    Map objeto=new HashMap();
-                        objeto.put("delete",true);
-                        array.add(objeto);
+                    response.sendRedirect("ShowInfo");
                 }
                 db.close();
             }catch(Exception e){

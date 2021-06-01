@@ -1,6 +1,7 @@
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import javax.servlet.ServletException;
@@ -42,5 +43,8 @@ public class Login extends HttpServlet {
         {
             System.out.println("Error: "+e);
         }
+        PrintWriter out = response.getWriter();
+        out.println(array);
+        out.close();
     }
 }
