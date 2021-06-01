@@ -12,6 +12,10 @@
         <servlet-name>ShowInfo</servlet-name>
         <servlet-class>ShowInfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Delete</servlet-name>
+        <servlet-class>Delete</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ShowInfo</servlet-name>
         <url-pattern>/ShowInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Delete</servlet-name>
+        <url-pattern>/Delete</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
