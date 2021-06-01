@@ -13,28 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 
-public class ShowInfo extends HttpServlet {
-        @Override
+public class ShowUser extends HttpServlet {
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("application/json;charset=UTF-8");
         HttpSession session=request.getSession();
+        String userSelected=request.getParameter("userSelected");
         String userName=(String)session.getAttribute("userName");
         String userEmail=(String)session.getAttribute("userEmail");
+        response.setContentType("application/json;charset=UTF-8");
         JSONArray array=new JSONArray();
+        boolean resultado=false;
         if(userName!=null&&userEmail!=null)
-            try
-            {
+            try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection db = DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
                 Statement stmt = db.createStatement();
-                ResultSet rs;
-                stmt = db.createStatement();
-                rs = stmt.executeQuery("select * from Usuario");
-                while (rs.next()){
+                ResultSet rs = stmt.executeQuery("select * from Usuario where idUsuario="+userSelected+"");
+                resultado=rs.next();
+                if (resultado)
+                {
                     Map objeto=new HashMap();
-                        objeto.put("id",rs.getInt("idUsuario"));
                         objeto.put("email",rs.getString("email"));
                         objeto.put("nombre",rs.getString("nombre"));
                         objeto.put("apellido",rs.getString("apellido"));
