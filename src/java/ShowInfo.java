@@ -36,6 +36,8 @@ public class ShowInfo extends HttpServlet {
                     Map objeto=new HashMap();
                         objeto.put("id",rs.getInt("idUsuario"));
                         objeto.put("nombre",rs.getString("nombre"));
+                        objeto.put("apellido",rs.getString("apellido"));
+                        objeto.put("password",rs.getString("password"));
                         array.add(objeto);
                 }
                 db.close();
