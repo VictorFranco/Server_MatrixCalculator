@@ -35,6 +35,7 @@ public class ShowUser extends HttpServlet {
                 if (resultado)
                 {
                     Map objeto=new HashMap();
+                        objeto.put("id",rs.getString("idUsuario"));
                         objeto.put("email",rs.getString("email"));
                         objeto.put("nombre",rs.getString("nombre"));
                         objeto.put("apellido",rs.getString("apellido"));
