@@ -20,10 +20,9 @@ public class ShowInfo extends HttpServlet {
     {
         response.setContentType("application/json;charset=UTF-8");
         HttpSession session=request.getSession();
-        String userName=(String)session.getAttribute("userName");
-        String userEmail=(String)session.getAttribute("userEmail");
+        String id=(String)session.getAttribute("ID");
         JSONArray array=new JSONArray();
-        if(userName!=null&&userEmail!=null)
+        if(id!=null)
             try
             {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -35,9 +34,7 @@ public class ShowInfo extends HttpServlet {
                 while (rs.next()){
                     Map objeto=new HashMap();
                         objeto.put("id",rs.getInt("idUsuario"));
-                        objeto.put("email",rs.getString("email"));
-                        objeto.put("nombre",rs.getString("nombre"));
-                        objeto.put("apellido",rs.getString("apellido"));
+                        objeto.put("ID",rs.getString("ID"));
                         objeto.put("password",rs.getString("password"));
                         array.add(objeto);
                 }
