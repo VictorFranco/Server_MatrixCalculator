@@ -17,10 +17,6 @@
         <servlet-class>Delete</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ShowUser</servlet-name>
-        <servlet-class>ShowUser</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>Update</servlet-name>
         <servlet-class>Update</servlet-class>
     </servlet>
@@ -39,10 +35,6 @@
     <servlet-mapping>
         <servlet-name>Delete</servlet-name>
         <url-pattern>/Delete</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ShowUser</servlet-name>
-        <url-pattern>/ShowUser</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Update</servlet-name>
