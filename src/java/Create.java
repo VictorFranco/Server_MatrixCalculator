@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,11 +19,13 @@ public class Create extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String email=request.getParameter("Email");
+        /*String email=request.getParameter("Email");
         String name=request.getParameter("Nombre");
         String password= request.getParameter("Password");
-        String last_name= request.getParameter("Apellido");
-
+        String last_name= request.getParameter("Apellido");*/
+        String id=request.getParameter("id");
+        String json_=request.getParameter("JSON");
+        System.out.println(json_);
         JSONArray array=new JSONArray();
         response.setContentType("application/json;charset=UTF-8");
         int resultado=0;
@@ -30,30 +34,29 @@ public class Create extends HttpServlet {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection db = DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
                 Statement stmt = db.createStatement();
-                boolean respuesta;
-                ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario where email = '" + email + "'");
+                boolean respuesta=false;
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario where idUsuario = " + id);
                 respuesta=rs.next();
                 if(respuesta){
-                    System.out.println("Ese usuario ya existe");
-                }else{
-                    PreparedStatement rss = db.prepareStatement("INSERT INTO Usuario (email,nombre,apellido,password) VALUES (?,?,?,?)");
-                    rss.setString(1,email);
-                    rss.setString(2,name);
-                    rss.setString(3,last_name);
-                    rss.setString(4,password);
+                    PreparedStatement rss = db.prepareStatement("INSERT INTO Ejercicios (idUsuario,JSON) VALUES (?,?)");
+                    rss.setString(1,id);
+                    rss.setString(2,json_);
                     resultado=rss.executeUpdate();
+                }
+                if(resultado==1){
+                    rs = stmt.executeQuery("select * from Ejercicios where idUsuario="+rs.getInt("idUsuario"));
+                    while (rs.next()){
+                        Map objeto=new HashMap();
+                        objeto.put("idEjercicio",rs.getString("idEjercicio"));
+                        objeto.put("JSON",rs.getString("JSON"));
+                        array.add(objeto);
+                    }
                 }
                 db.close();
         }
         catch (Exception e)
         {
             System.out.println("Error: "+e);
-        }
-        if(resultado==1){
-            HttpSession sesion=request.getSession();
-            sesion.setAttribute("userName",name);
-            sesion.setAttribute("userEmail",email);
-            response.sendRedirect("ShowInfo");
         }
         PrintWriter out = response.getWriter();
         out.println(array);

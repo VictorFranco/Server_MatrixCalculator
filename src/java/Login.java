@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +35,19 @@ public class Login extends HttpServlet {
             if(respuesta && passwrd.equals(password)){
                 HttpSession sesion=request.getSession();
                 sesion.setAttribute("ID",id);
-                response.sendRedirect("ShowInfo");
+                Map objeto=new HashMap();
+                objeto.put("id",rs.getInt("idUsuario"));
+                objeto.put("ID",rs.getString("ID"));
+                array.add(objeto);
+                rs = stmt.executeQuery("select * from Ejercicios where idUsuario="+rs.getInt("idUsuario"));
+                JSONArray array2=new JSONArray();
+                while (rs.next()){
+                        Map objeto2=new HashMap();
+                        objeto2.put("idEjercicio",rs.getString("idEjercicio"));
+                        objeto2.put("JSON",rs.getString("JSON"));
+                        array2.add(objeto2);
+                }
+                array.add(array2);
             }else
                 System.out.println("Not found");
             db.close();
