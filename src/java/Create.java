@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 
 public class Create extends HttpServlet {
@@ -16,7 +17,8 @@ public class Create extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        String id=request.getParameter("id");
+        HttpSession session=request.getSession();
+        String id=(String)session.getAttribute("id");
         String json_=request.getParameter("JSON");
         JSONArray array=new JSONArray();
         response.setContentType("application/json;charset=UTF-8");
