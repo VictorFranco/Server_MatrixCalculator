@@ -18,7 +18,6 @@ public class Create extends HttpServlet {
     {
         String id=request.getParameter("id");
         String json_=request.getParameter("JSON");
-        System.out.println(json_);
         JSONArray array=new JSONArray();
         response.setContentType("application/json;charset=UTF-8");
         int resultado=0;

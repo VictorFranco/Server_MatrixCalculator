@@ -18,17 +18,16 @@ public class Delete extends HttpServlet {
             throws ServletException, IOException
     {
         HttpSession session=request.getSession();
-        String userSelected=request.getParameter("userSelected");
-        String userName=(String)session.getAttribute("userName");
-        String userEmail=(String)session.getAttribute("userEmail");
+        String id=(String)session.getAttribute("id");
+        String exercise=request.getParameter("exercise");
         response.setContentType("application/json;charset=UTF-8");
         JSONArray array=new JSONArray();
-        if(userName!=null&&userEmail!=null)
+        if(id!=null)
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection db = DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
-                PreparedStatement rs = db.prepareStatement("delete from Usuario where idUsuario=?");
-                rs.setString(1,userSelected);
+                PreparedStatement rs = db.prepareStatement("delete from Ejercicios where idEjercicio=?");
+                rs.setString(1,exercise);
                 int resultado=rs.executeUpdate();
                 if(resultado==1){
                     response.sendRedirect("ShowInfo");
