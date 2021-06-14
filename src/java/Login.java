@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +17,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException
     {
         response.setContentType("application/json;charset=UTF-8");
-        String id=request.getParameter("ID");
+        String ID=request.getParameter("ID");
         String password= request.getParameter("Password");
         JSONArray array=new JSONArray();
 
@@ -29,25 +27,13 @@ public class Login extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection db = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
             Statement stmt = (Statement) db.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario where ID = '" + id + "'");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario where ID = '" + ID + "'");
             respuesta=rs.next();
             String passwrd=rs.getString("password");
             if(respuesta && passwrd.equals(password)){
                 HttpSession sesion=request.getSession();
-                sesion.setAttribute("ID",id);
-                Map objeto=new HashMap();
-                objeto.put("id",rs.getInt("idUsuario"));
-                objeto.put("ID",rs.getString("ID"));
-                array.add(objeto);
-                rs = stmt.executeQuery("select * from Ejercicios where idUsuario="+rs.getInt("idUsuario"));
-                JSONArray array2=new JSONArray();
-                while (rs.next()){
-                        Map objeto2=new HashMap();
-                        objeto2.put("idEjercicio",rs.getString("idEjercicio"));
-                        objeto2.put("JSON",rs.getString("JSON"));
-                        array2.add(objeto2);
-                }
-                array.add(array2);
+                sesion.setAttribute("id",Integer.toString(rs.getInt("idUsuario")));
+                response.sendRedirect("ShowInfo");
             }else
                 System.out.println("Not found");
             db.close();

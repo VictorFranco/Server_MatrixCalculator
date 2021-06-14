@@ -5,13 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 
 public class Create extends HttpServlet {
@@ -19,18 +16,15 @@ public class Create extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        /*String email=request.getParameter("Email");
-        String name=request.getParameter("Nombre");
-        String password= request.getParameter("Password");
-        String last_name= request.getParameter("Apellido");*/
         String id=request.getParameter("id");
         String json_=request.getParameter("JSON");
         System.out.println(json_);
         JSONArray array=new JSONArray();
         response.setContentType("application/json;charset=UTF-8");
         int resultado=0;
-        try
-        {
+        if(id!=null)
+            try
+            {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection db = DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
                 Statement stmt = db.createStatement();
@@ -43,15 +37,8 @@ public class Create extends HttpServlet {
                     rss.setString(2,json_);
                     resultado=rss.executeUpdate();
                 }
-                if(resultado==1){
-                    rs = stmt.executeQuery("select * from Ejercicios where idUsuario="+rs.getInt("idUsuario"));
-                    while (rs.next()){
-                        Map objeto=new HashMap();
-                        objeto.put("idEjercicio",rs.getString("idEjercicio"));
-                        objeto.put("JSON",rs.getString("JSON"));
-                        array.add(objeto);
-                    }
-                }
+                if(resultado==1)
+                    response.sendRedirect("ShowInfo");
                 db.close();
         }
         catch (Exception e)
