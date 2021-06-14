@@ -22,6 +22,7 @@ public class Login extends HttpServlet {
         JSONArray array=new JSONArray();
 
         boolean respuesta;
+        int resultado=0;
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
@@ -33,7 +34,7 @@ public class Login extends HttpServlet {
             if(respuesta && passwrd.equals(password)){
                 HttpSession sesion=request.getSession();
                 sesion.setAttribute("id",Integer.toString(rs.getInt("idUsuario")));
-                response.sendRedirect("ShowInfo");
+                resultado=1;
             }else
                 System.out.println("Not found");
             db.close();
@@ -42,6 +43,8 @@ public class Login extends HttpServlet {
         {
             System.out.println("Error: "+e);
         }
+        if(resultado==1)
+            response.sendRedirect("ShowInfo");
         PrintWriter out = response.getWriter();
         out.println(array);
         out.close();

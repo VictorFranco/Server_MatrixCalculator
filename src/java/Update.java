@@ -18,35 +18,26 @@ public class Update extends HttpServlet {
             throws ServletException, IOException
     {
         response.setContentType("application/json;charset=UTF-8");
-        String email= request.getParameter("email");
-        String name= request.getParameter("nombre");
-        String password= request.getParameter("password");
-        String apellido= request.getParameter("apellido");
-        String userSelected=request.getParameter("userSelected");
-        HttpSession session=request.getSession();
-        int resultado=0;
         
-        String userName=(String)session.getAttribute("userName");
-        String userEmail=(String)session.getAttribute("userEmail");
+        HttpSession session=request.getSession();
+        String id=(String)session.getAttribute("id");
+        String exercise=request.getParameter("exercise");
+        String json_=request.getParameter("JSON");
         JSONArray array=new JSONArray();
-        if(userName!=null&&userEmail!=null)
+        int resultado=0;
+        if(id!=null)
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection db = DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
                 Statement stmt = db.createStatement();
 
                 boolean respuesta;
-                ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario where email = '" + email + "'");
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Usuario where idUsuario = " + id);
                 respuesta=rs.next();
-                if(respuesta&&!rs.getString("idUsuario").equals(userSelected)){
-                    db.close();
-                }else{
-                    PreparedStatement rss = db.prepareStatement("UPDATE Usuario SET nombre=? , apellido=? , password=? , email=? where idUsuario=?");
-                    rss.setString(1,name);
-                    rss.setString(2,apellido);
-                    rss.setString(3,password);
-                    rss.setString(4,email);
-                    rss.setString(5,userSelected);
+                if(respuesta){
+                    PreparedStatement rss = db.prepareStatement("UPDATE Ejercicios SET JSON=? where idEjercicio=?");
+                    rss.setString(1,json_);
+                    rss.setString(2,exercise);
                     resultado=rss.executeUpdate();
                     db.close();
                 }
@@ -57,6 +48,7 @@ public class Update extends HttpServlet {
             }
         if(resultado==1){
             response.sendRedirect("ShowInfo");
+            System.out.println("aaaaaaaa");
         }
         PrintWriter out = response.getWriter();
         out.println(array);

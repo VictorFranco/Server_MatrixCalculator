@@ -22,20 +22,20 @@ public class Delete extends HttpServlet {
         String exercise=request.getParameter("exercise");
         response.setContentType("application/json;charset=UTF-8");
         JSONArray array=new JSONArray();
+        int resultado=0;
         if(id!=null)
             try{
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection db = DriverManager.getConnection("jdbc:mysql://localhost:3306/Usuarios","root", "1234");
                 PreparedStatement rs = db.prepareStatement("delete from Ejercicios where idEjercicio=?");
                 rs.setString(1,exercise);
-                int resultado=rs.executeUpdate();
-                if(resultado==1){
-                    response.sendRedirect("ShowInfo");
-                }
+                resultado=rs.executeUpdate();
                 db.close();
             }catch(Exception e){
                 System.out.println("Error: "+e);
             }
+            if(resultado==1)
+                response.sendRedirect("ShowInfo");
         PrintWriter out = response.getWriter();
         out.println(array);
         out.close();
