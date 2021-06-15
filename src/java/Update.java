@@ -14,11 +14,11 @@ import org.json.simple.JSONArray;
 
 public class Update extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
         response.setContentType("application/json;charset=UTF-8");
-        
+
         HttpSession session=request.getSession();
         String id=(String)session.getAttribute("id");
         String exercise=request.getParameter("exercise");
@@ -46,10 +46,8 @@ public class Update extends HttpServlet {
             {
                 System.out.println("Error: "+e);
             }
-        if(resultado==1){
+        if(resultado==1)
             response.sendRedirect("ShowInfo");
-            System.out.println("aaaaaaaa");
-        }
         PrintWriter out = response.getWriter();
         out.println(array);
         out.close();

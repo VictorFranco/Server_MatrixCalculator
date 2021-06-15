@@ -12,15 +12,14 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONArray;
 
 public class Login extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+      @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
         response.setContentType("application/json;charset=UTF-8");
         String ID=request.getParameter("ID");
         String password= request.getParameter("Password");
         JSONArray array=new JSONArray();
-
         boolean respuesta;
         int resultado=0;
         try
